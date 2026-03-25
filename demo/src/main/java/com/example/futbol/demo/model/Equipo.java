@@ -1,19 +1,30 @@
 package com.example.futbol.demo.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "equipo")
 public class Equipo {
 
-     @Id
-     private Integer id;
+    @Id
+    private Integer id;
 
-     private String nombreEquipo;
+    @Column(nullable = false)
+    private String nombreEquipo;
 
-     private Estadio estadio;
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "id_estadio", nullable = false)
+    private Estadio estadio;
+
+
+    public Equipo() {}
+
+    public Equipo(Integer id) {
+        this.id = id;
+    }
 
     public Equipo(Integer id, String nombreEquipo, Estadio estadio) {
         this.id = id;
@@ -21,9 +32,17 @@ public class Equipo {
         this.estadio = estadio;
     }
 
-    public Equipo(){
 
+    @JsonProperty("id_estadio")
+    public Integer getID_estadio() {
+        return estadio == null ? null : estadio.getId();
     }
+
+    @JsonProperty("id_estadio")
+    public void setID_estadio(Integer idEstadio) {
+        this.estadio = (idEstadio == null) ? null : new Estadio(idEstadio);
+    }
+
 
     public Integer getId() {
         return id;
