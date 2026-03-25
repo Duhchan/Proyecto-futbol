@@ -1,7 +1,6 @@
 package com.example.futbol.demo.controller;
 
 
-import com.example.futbol.demo.model.Equipo;
 import com.example.futbol.demo.model.Jugador;
 import com.example.futbol.demo.repositorio.EquipoInterface;
 import com.example.futbol.demo.repositorio.JugadorInterface;
@@ -21,11 +20,11 @@ public class JugadorController {
         this.equipoInterface = equipoInterface;
     }
     @GetMapping("listarJugadores")
-    public ResponseEntity<?>listarJugador(){
+    public ResponseEntity<?>listarJugadores(){
     return ResponseEntity.ok(jugadorInterface.findAll());
     }
     @PostMapping("addJugador")
-    public ResponseEntity<?>agregarJugador(@RequestBody Jugador nuevoJugador){
+    public ResponseEntity<?>addJugador(@RequestBody Jugador nuevoJugador){
         nuevoJugador.setEquipo(equipoInterface.getReferenceById(nuevoJugador.getId_equipo()));
         Jugador guardarJugador = jugadorInterface.save(nuevoJugador);
         return ResponseEntity.status(HttpStatus.CREATED).body(guardarJugador);
