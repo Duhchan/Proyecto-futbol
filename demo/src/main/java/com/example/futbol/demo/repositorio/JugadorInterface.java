@@ -1,4 +1,7 @@
 package com.example.futbol.demo.repositorio;
 
-public interface JugadorInterface {
+import com.example.futbol.demo.model.Jugador;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface JugadorInterface  extends JpaRepository<Jugador, Integer> {
 }
