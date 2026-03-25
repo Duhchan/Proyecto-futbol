@@ -1,8 +1,8 @@
 package com.example.futbol.demo.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name ="jugador")
@@ -10,18 +10,33 @@ import jakarta.persistence.Table;
 public class Jugador {
     @Id
     private Integer id;
-
-    private String nombre;
-
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "id_equipo", nullable = false)
     private Equipo equipo;
 
-    private Estadio estadio;
+    @JoinColumn(nullable = false)
+    private String nombre;
 
-    public Jugador(Integer id, String nombre, Equipo equipo, Estadio estadio) {
+
+    public Jugador(Integer id, String nombre, Equipo equipo) {
         this.id = id;
         this.nombre = nombre;
         this.equipo = equipo;
-        this.estadio = estadio;
+    }
+    public Jugador(Integer id, String nombre, Integer id_equipo) {
+        this.id = id;
+        this.nombre = nombre;
+        setID_equipo(id_equipo);
+
+    }
+    @JsonProperty("id_equipo")
+    public Integer getId_equipo(){
+        return equipo == null ? null : equipo.getId();
+    }
+    @JsonProperty("id_equipo")
+    public void setID_equipo(Integer idEquipo){
+        this.equipo = (idEquipo == null)? null : new Equipo (idEquipo, null);
     }
     public Jugador (){
 
@@ -51,11 +66,5 @@ public class Jugador {
         this.equipo = equipo;
     }
 
-    public Estadio getEstadio() {
-        return estadio;
-    }
 
-    public void setEstadio(Estadio estadio) {
-        this.estadio = estadio;
-    }
 }

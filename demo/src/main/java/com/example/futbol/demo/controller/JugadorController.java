@@ -26,8 +26,7 @@ public class JugadorController {
     }
     @PostMapping("agregarJugador")
     public ResponseEntity<?>agregarJugador(@RequestBody Jugador nuevoJugador){
-        Integer idEquipo = nuevoJugador.getEquipo().getId();
-        Equipo equipo = equipoInterface.getReferenceById(idEquipo);
+        nuevoJugador.setEquipo(equipoInterface.getReferenceById(nuevoJugador.getID_equipo()));
         nuevoJugador.setEquipo(equipo);
         Jugador guardarJugador = jugadorInterface.save(nuevoJugador);
         return ResponseEntity.status(HttpStatus.CREATED).body(guardarJugador);
