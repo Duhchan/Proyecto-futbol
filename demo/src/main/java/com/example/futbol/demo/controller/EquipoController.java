@@ -3,6 +3,7 @@ package com.example.futbol.demo.controller;
 import com.example.futbol.demo.model.Equipo;
 import com.example.futbol.demo.repositorio.EquipoInterface;
 import com.example.futbol.demo.repositorio.EstadioInterface;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,12 +21,16 @@ public class EquipoController {
     }
 
     @GetMapping("listarEquipos")
-    public ResponseEntity<?>listarEquipo(){
-        return ResponseEntity.ok(equipoInterface.findAll())
+    public ResponseEntity<?> listarEquipo() {
+        return ResponseEntity.ok(equipoInterface.findAll()); // Se agregó el ;
     }
 
     @PostMapping("addEquipo")
-    public ResponseEntity<?> addEquipo(@RequestBody Equipo nuevoEquipo){
+    public ResponseEntity<?> addEquipo(@RequestBody Equipo nuevoEquipo) {
+        nuevoEquipo.setEstadio(estadioInterface.getReferenceById(nuevoEquipo.getID_estadio()));
 
+        Equipo equipoSave = equipoInterface.save(nuevoEquipo);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(equipoSave);
     }
 }
