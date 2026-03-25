@@ -10,7 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/v1/jugador")
+@RequestMapping("/api/v1/jugadores")
 public class JugadorController {
 
     private final JugadorInterface jugadorInterface;
@@ -20,11 +20,11 @@ public class JugadorController {
         this.jugadorInterface = jugadorInterface;
         this.equipoInterface = equipoInterface;
     }
-    @GetMapping("listarJugador")
+    @GetMapping("listarJugadores")
     public ResponseEntity<?>listarJugador(){
     return ResponseEntity.ok(jugadorInterface.findAll());
     }
-    @PostMapping("agregarJugador")
+    @PostMapping("addJugador")
     public ResponseEntity<?>agregarJugador(@RequestBody Jugador nuevoJugador){
         nuevoJugador.setEquipo(equipoInterface.getReferenceById(nuevoJugador.getId_equipo()));
         Jugador guardarJugador = jugadorInterface.save(nuevoJugador);
