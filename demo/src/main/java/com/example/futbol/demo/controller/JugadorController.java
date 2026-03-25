@@ -1,13 +1,13 @@
 package com.example.futbol.demo.controller;
 
 
+import com.example.futbol.demo.model.Equipo;
+import com.example.futbol.demo.model.Jugador;
 import com.example.futbol.demo.repositorio.EquipoInterface;
 import com.example.futbol.demo.repositorio.JugadorInterface;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/jugador")
@@ -25,6 +25,12 @@ public class JugadorController {
     return ResponseEntity.ok(jugadorInterface.findAll());
     }
     @PostMapping("agregarJugador")
-    public ResponseEntity<?>
+    public ResponseEntity<?>agregarJugador(@RequestBody Jugador nuevoJugador){
+        Integer idEquipo = nuevoJugador.getEquipo().getId();
+        Equipo equipo = equipoInterface.getReferenceById(idEquipo);
+        nuevoJugador.setEquipo(equipo);
+        Jugador guardarJugador = jugadorInterface.save(nuevoJugador);
+        return ResponseEntity.status(HttpStatus.CREATED).body(guardarJugador);
+    }
 
 }
