@@ -25,6 +25,10 @@ public class Equipo {
     public Equipo(Integer id) {
         this.id = id;
     }
+    public Equipo(Integer id, String nombreEquipo) {
+        this.id = id;
+        this.nombreEquipo = nombreEquipo;
+    }
 
     public Equipo(Integer id, String nombreEquipo, Estadio estadio) {
         this.id = id;
